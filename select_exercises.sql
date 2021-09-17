@@ -35,12 +35,12 @@ WHERE name ="Nevermind";
 -- 4d. WHich albums were released in the 1990s?
 SELECT name
 FROM albums
-WHERE release_date BETWEEN '1990' AND '1999';
+WHERE release_date BETWEEN 1990 AND 1999;
 
 -- 4e. WHich albums had less than 20 million certified sales?
 SELECT name, sales
 FROM albums
-WHERE sales < '20';
+WHERE sales < 20;
 
 -- 4f. Find all rock. Hard / prog
 SELECT *
