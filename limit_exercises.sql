@@ -7,6 +7,18 @@ FROM employees
 ORDER BY last_name DESC
 LIMIT 10;
 
+/* Zykh
+Zyda
+Zwicker
+Zweizig
+Zumaque
+Zultner
+Zucker
+Zuberek
+Zschoche
+Zongker */
+
+
 -- 3. Hired 90s & Born Christmas. First 5 sorted by hire date Alselm Cappello, Utz Mandell, Bouchung Schreiter, Baocai Kushner, Petter Stroustrup
 
 SELECT emp_no,
@@ -33,3 +45,9 @@ WHERE hire_date BETWEEN '1990-01-01' AND '1999-12-31'
 ORDER BY hire_date
 LIMIT 5
 OFFSET 45;
+
+/* Pranay	Narwekar
+Marjo	Farrow
+Ennio	Karcich
+Dines	Lubachevsky	
+Ipke	Fontan  */
