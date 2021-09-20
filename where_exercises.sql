@@ -105,7 +105,7 @@ SELECT emp_no,
 FROM employees
 WHERE last_name LIKE '%q%';
 
--- 12. q but not qu -- 572 records
+-- 12. q but not qu -- 547 records
 
 SELECT emp_no,
        first_name,
