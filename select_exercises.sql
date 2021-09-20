@@ -50,4 +50,3 @@ WHERE genre = 'Rock';
 SELECT *
 FROM albums
 WHERE genre LIKE '%Rock%';
-
