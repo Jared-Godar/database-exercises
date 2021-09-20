@@ -58,6 +58,14 @@ SELECT emp_no,
 FROM employees
 WHERE last_name LIKE 'E%e';
 
+-- Ends with e 24292
+SELECT emp_no,
+       first_name,
+       last_name
+FROM employees
+WHERE last_name LIKE '%e';
+
+
 -- 8. Employees hired in the 90s -- 135214 records
 
 SELECT emp_no,
