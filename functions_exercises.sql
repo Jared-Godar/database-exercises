@@ -38,3 +38,4 @@ SELECT Lower(Concat(Substr(first_name, 1, 1), Substr(last_name, 1, 4), '_',
        last_name,
        birth_date
 FROM   employees; 
+
