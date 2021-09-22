@@ -43,6 +43,7 @@ GROUP BY last_name;
 
 -- 7. Find all all employees with first names 'Irena', 'Vidya', or 'Maya'. Use COUNT(*) and GROUP BY to find the number of employees for each gender with those names.
 
+/*
 SELECT first_name, count(first_name)
 FROM employees
 WHERE first_name IN ('Irena',
@@ -58,30 +59,101 @@ WHERE first_name IN ('Irena',
                      'Maya')
 AND gender = 'F'
 GROUP BY first_name;
+*/
 
-SELECT first_name AS 'First Name', count(gender)
+SELECT first_name AS 'First Name', sum(gender='M') AS 'MALES', sum(gender='F') AS 'FEMALES'
 FROM employees
 WHERE first_name IN('Irena', 'Vidya','Maya')
-GROUP BY first_name, gender;
+GROUP BY first_name;
+
 
 -- 8. Using your query that generates a username for all of the employees, generate a count employees for each unique username. Are there any duplicate usernames? BONUS: How many duplicate usernames are there?
 
+/*
 SELECT Lower(Concat(Substr(first_name, 1, 1), Substr(last_name, 1, 4), '_',
                           Substr(birth_date, 6, 2), Substr(birth_date, 3, 2)))
        AS
-       username, count(username)
+       username,
+       count(Lower(Concat(Substr(first_name, 1, 1), Substr(last_name, 1, 4), '_',
+                           Substr(birth_date, 6, 2), Substr(birth_date, 3, 2))))
+      AS user_count,       
        first_name,
        last_name,
        birth_date
-FROM   employees
-GROUP BY username;
+FROM   employees; 
+*/
 
-/*9. More practice with aggregate functions:
+SELECT COUNT(LOWER( CONCAT( 
+		 SUBSTR(first_name,1,1), #first initial of first name 
+		 SUBSTR(last_name,1,4),  #first 4 of last name
+		'_', 
+		DATE_FORMAT(birth_date, '%m'), # month
+		DATE_FORMAT(birth_date, '%y') # last two digits of year
+		)))
+		AS ALL_Usernames,
+		COUNT(DISTINCT LOWER( CONCAT( 
+		 SUBSTR(first_name,1,1), #first initial of first name 
+		 SUBSTR(last_name,1,4),  #first 4 of last name
+		'_', 
+		DATE_FORMAT(birth_date, '%m'), # month
+		DATE_FORMAT(birth_date, '%y') # last two digits of year
+		)))
+		AS Unique_Usernames,
+		300024-285872 AS Duplicate_Usernames
+        
+FROM employees;
+-- 9. More practice with aggregate functions:
 
-Find the historic average salary for all employees. Now determine the current average salary.
-Now find the historic average salary for each employee. Reminder that when you hear "for each" in the problem statement, you'll probably be grouping by that exact column.
-Find the current average salary for each employee.
-Find the maximum salary for each current employee.
-Now find the max salary for each current employee where that max salary is greater than $150,000.
-Find the current average salary for each employee where that average salary is between $80k and $90k.
-/*
+-- Find the historic average salary for all employees. Now determine the current average salary.
+
+SELECT avg(salary)
+	FROM salaries AS historic_avg_salary;
+
+SELECT avg(salary) AS current_avg_salary
+	FROM salaries
+    WHERE to_date > CURDATE();
+
+
+-- Now find the historic average salary for each employee. Reminder that when you hear "for each" in the problem statement, you'll probably be grouping by that exact column.
+
+SELECT emp_no,
+	AVG(salary) AS avg_salary
+FROM salaries
+GROUP BY emp_no;
+
+
+-- Find the current average salary for each employee.
+
+SELECT emp_no,
+	AVG(salary) AS avg_salary
+FROM salaries
+WHERE to_date > CURDATE()
+GROUP BY emp_no;
+
+
+-- Find the maximum salary for each current employee.
+
+SELECT emp_no,
+	MAX(salary)
+FROM salaries
+WHERE to_date > CURDATE()
+GROUP BY emp_no;
+
+
+-- Now find the max salary for each current employee where that max salary is greater than $150,000.
+
+SELECT emp_no,
+	MAX(salary) AS max_salary
+FROM salaries
+WHERE to_date > CURDATE()
+GROUP BY emp_no
+HAVING max_salary > 150000;
+
+-- Find the current average salary for each employee where that average salary is between $80k and $90k.
+
+SELECT emp_no,
+	AVG(salary) AS avg_salary
+FROM salaries
+WHERE to_date > CURDATE()
+GROUP BY emp_no
+HAVING avg_salary BETWEEN 80000 AND 90000;
