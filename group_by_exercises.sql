@@ -33,6 +33,8 @@ WHERE last_name LIKE('%q%')
 AND last_name NOT LIKE('%qu%')
 GROUP BY last_name;
 
+
+
 -- 6. Add a COUNT() to your results (the query above) to find the number of employees with the same last name.
 
 SELECT last_name, count(last_name)
