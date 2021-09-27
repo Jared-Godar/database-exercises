@@ -91,7 +91,7 @@ JOIN employees using(emp_no)
 
 -- 6. How many current salaries are within 1 standard deviation of the current highest salary? 211
 # (Hint: you can use a built in function to calculate the standard deviation.) 
-# What percentage of all salaries is this? = (211/240124)*100 = 0.0879 % 
+# What percentage of all salaries is this? = (83/240124)*100 = 0.035 % 
 
 #S1 current highest 158,220
 
@@ -99,22 +99,31 @@ SELECT max(salary)
 FROM salaries
 WHERE to_date > now() as max_salary;
 
-## Deviation 16,904
-select stddev(salary) from salaries;
+## Deviation 17310
+SELECT stddev(salary) 
+FROM  salaries
+WHERE to_date > now();
 
+/*
 #S Z score
 SELECT salary, 
     (salary - (SELECT AVG(salary) FROM salaries)) 
     / 
     (SELECT stddev(salary) FROM salaries) AS zscore
 FROM salaries;
+*/
 
-SELECT emp_no, salary
+SELECT emp_no, salary, last_name, first_name
 FROM salaries
-WHERE salary > ((SELECT max(salary)
-FROM salaries
-WHERE to_date > now()) - (SELECT stddev(salary) from salaries));
+JOIN employees USING(emp_no)
+WHERE to_date > now()
+AND salary > ((SELECT max(salary) FROM salaries WHERE to_date > now()) 
+- 
+(SELECT stddev(salary) from salaries WHERE to_date > now()))
+ORDER BY salary DESC; -- returns 83 salaries should have salaries ranging from 158220 and 140910 (max - 1 SD)
+ 
 
+#total current salaries: 240,124
 select emp_no, salary
 from salaries
 where to_date > now();
@@ -142,6 +151,12 @@ FROM salaries;
 -- BONUS:
 
 -- 1. Find all the department names that currently have female managers.
+
+#s1
+SELECT emp_no
+FROM employees
+WHERE gender = 'F';
+
 
 
 

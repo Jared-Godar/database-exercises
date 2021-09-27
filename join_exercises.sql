@@ -66,6 +66,19 @@ FROM
 WHERE
     dept_manager.to_date > curdate();
     
+SELECT
+    departments.dept_name AS 'Department Name',
+    concat(employees.first_name, ' ', employees.last_name) AS 'Current Manager' 
+FROM
+    dept_manager 
+    JOIN
+        employees USING(emp_no) 
+    JOIN
+        departments 
+        ON dept_manager.dept_no = departments.dept_no 
+WHERE
+    dept_manager.to_date > curdate();
+    
 -- 3. Find the name of all departments currently managed by women.
 
 SELECT
@@ -139,7 +152,7 @@ GROUP BY
 
 SELECT
     departments.dept_name AS dept_name,
-    AVG(salaries.salary) AS average_salary 
+    round(AVG(salaries.salary),2) AS average_salary 
 FROM
     departments 
     JOIN
@@ -193,3 +206,6 @@ WHERE
     AND dept_manager.to_date > curdate() 
 ORDER BY
     salaries.salary DESC LIMIT 1;
+    
+--
+
