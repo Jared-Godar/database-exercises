@@ -73,11 +73,12 @@ ALTER TABLE department_avg_pay ADD z_score float;
 #SELECT stddev(salary) FROM department_pay as stdev_salary;  -- 16900.85
 ALTER TABLE department_avg_pay ADD avg_salary float;
 ALTER TABLE department_avg_pay ADD std_salary float;
+
 UPDATE department_avg_pay
 SET avg_salary = 63805.4;
+
 UPDATE department_avg_pay
 SET std_salary = 16900.85;
-#Need a GROUP BY department somewhere
 
 UPDATE department_avg_pay
 SET z_score = (`avg(salary)` - avg_salary) 
